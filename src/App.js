@@ -682,21 +682,27 @@ export default function App() {
 
             {/* KPI GRID - Responsive */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6">
-              {kpis.map((item) => (
-                <div key={item.label} className="card-base p-4 md:p-5">
-                  <p className="text-gray-600 text-sm md:text-base mb-2">{item.label}</p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">{item.value}</h2>
-                  <small className="text-gray-500 text-xs md:text-sm">{item.hint}</small>
-                </div>
-              ))}
+              {kpis.map((item, idx) => {
+                const colorClass = ["card-blue", "card-purple", "card-cyan", "card-teal"][idx % 4];
+                return (
+                  <div key={item.label} className={`card-base ${colorClass} p-4 md:p-5`}>
+                    <p className="text-slate-600 text-sm md:text-base mb-2 font-semibold uppercase tracking-wide">{item.label}</p>
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">{item.value}</h2>
+                    <small className="text-slate-500 text-xs md:text-sm">{item.hint}</small>
+                  </div>
+                );
+              })}
             </div>
 
             {/* SALES GRID - Mobile stacked, Desktop 2-col */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
               {/* Products Section */}
-              <div className="lg:col-span-2 card-base p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">Sales Transaction</h3>
-                <p className="text-gray-600 text-sm md:text-base mb-4">Scan, search, add items.</p>
+              <div className="lg:col-span-2 card-indigo p-4 md:p-6">
+                <div className="mb-3 inline-flex items-center gap-2 px-2 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
+                  <span>🔥</span> Live Sales
+                </div>
+                <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-2">Sales Transaction</h3>
+                <p className="text-slate-600 text-sm md:text-base mb-4">Scan, search, add items, and manage payments quickly.</p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3 mb-4">
                   <input 
@@ -730,14 +736,14 @@ export default function App() {
                 </div>
 
                 {/* Products Table - Responsive */}
-                <div className="overflow-x-auto">
-                  <table className="w-full text-xs md:text-sm">
+                <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                  <table className="w-full text-xs md:text-sm bg-white rounded-lg overflow-hidden">
                     <thead>
-                      <tr className="bg-gray-50 border-b border-gray-200">
-                        <th className="px-2 md:px-4 py-2 text-left font-semibold text-gray-900">Product</th>
-                        <th className="px-2 md:px-4 py-2 text-left font-semibold text-gray-900">Price</th>
-                        <th className="px-2 md:px-4 py-2 text-center font-semibold text-gray-900">Stock</th>
-                        <th className="px-2 md:px-4 py-2 text-center font-semibold text-gray-900">Action</th>
+                      <tr className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                        <th className="px-2 md:px-4 py-2 text-left font-semibold">Product</th>
+                        <th className="px-2 md:px-4 py-2 text-left font-semibold">Price</th>
+                        <th className="px-2 md:px-4 py-2 text-center font-semibold">Stock</th>
+                        <th className="px-2 md:px-4 py-2 text-center font-semibold">Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
@@ -765,11 +771,14 @@ export default function App() {
               </div>
 
               {/* Cart Section */}
-              <div className="card-base p-4 md:p-6 top-20 lg:sticky">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Current Sale</h3>
-                
+              <div className="card-cyan p-4 md:p-6 top-20 lg:sticky">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg md:text-xl font-bold text-slate-900">Current Sale</h3>
+                  <span className="text-xs font-semibold text-teal-700 bg-teal-100 px-2 py-1 rounded-full">{cart.length} items</span>
+                </div>
+
                 {cart.length === 0 ? (
-                  <p className="text-center py-8 text-gray-500 text-sm md:text-base">Cart is empty</p>
+                  <p className="text-center py-8 text-slate-600 text-sm md:text-base">Cart is empty</p>
                 ) : (
                   <>
                     <div className="space-y-2 mb-4 max-h-64 overflow-y-auto">

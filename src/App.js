@@ -688,6 +688,7 @@ export default function App() {
                 <p className="text-xs md:text-sm font-semibold text-blue-600 uppercase tracking-wide mb-2">Point of Sale System</p>
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Sales Transaction Processing</h1>
                 <p className="text-gray-600 text-sm md:text-base">Scan, search, add items, and auto-compute totals with role-based access control.</p>
+                <p className="text-xs text-blue-700">{currentUser.role === "Supervisor" ? "Supervisor can cancel sale with reason, void items, and approve Post-void." : ""}</p>
               </div>
             </div>
 
@@ -744,6 +745,35 @@ export default function App() {
                   >
                     Scan
                   </button>
+                </div>
+
+                {/* In-dashboard discount + cancel reason */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 mb-4 bg-white rounded-lg border border-gray-200 p-3">
+                  <div>
+                    <label className="block text-gray-700 font-medium text-xs mb-1">Discount</label>
+                    <select
+                      value={discount}
+                      onChange={(e) => setDiscount(e.target.value)}
+                      className="input-base text-xs md:text-sm w-full"
+                    >
+                      <option value="none">No Discount</option>
+                      <option value="senior">Senior Citizen (20%)</option>
+                      <option value="pwd">PWD (20%)</option>
+                      <option value="athlete">Athlete (10%)</option>
+                      <option value="solo">Solo Parent (10%)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 font-medium text-xs mb-1">Cancel Reason</label>
+                    <input
+                      type="text"
+                      value={cancelReason}
+                      onChange={(e) => setCancelReason(e.target.value)}
+                      placeholder="Add cancellation reason"
+                      className="input-base text-xs md:text-sm w-full"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Required if you press Cancel</p>
+                  </div>
                 </div>
 
                 {/* Products Table - Responsive */}

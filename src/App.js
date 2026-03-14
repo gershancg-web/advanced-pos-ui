@@ -440,7 +440,16 @@ export default function App() {
     { label: "Low Stock Alerts", value: lowStockCount.toString(), hint: "Needs replenishment" },
   ];
 
-  const tabs = ["sales", "products", "users", "discounts", "cancelvoid", "postvoid", "receipts", "audit"];
+  const navItems = [
+    { key: "sales", label: "Dashboard" },
+    { key: "products", label: "Products" },
+    { key: "users", label: "Users & Roles" },
+    { key: "discounts", label: "Discounts" },
+    { key: "cancelvoid", label: "Void & Cancel" },
+    { key: "postvoid", label: "Post-Void" },
+    { key: "receipts", label: "Receipts" },
+    { key: "audit", label: "Audit Logs" },
+  ];
 
   // ==================== LOGIN PAGE ====================
   if (!isLoggedIn) {
@@ -591,17 +600,17 @@ export default function App() {
         </div>
 
         <nav className="flex-1 p-4 md:p-6 space-y-2">
-          {["Dashboard", "Products", "Users & Roles", "Sales Processing", "Discounts", "Void & Cancel", "Post-Void", "Receipts", "Audit Logs"].map((label, i) => (
+          {navItems.map((item) => (
             <button 
-              key={label}
-              onClick={() => setActiveTab(tabs[i])}
+              key={item.key}
+              onClick={() => setActiveTab(item.key)}
               className={`w-full text-left px-3 md:px-4 py-2 md:py-2.5 rounded-lg text-sm md:text-base font-medium transition-all duration-200 ${
-                tabs[i] === activeTab 
+                item.key === activeTab 
                   ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg scale-105" 
                   : "text-slate-300 hover:bg-slate-700 hover:text-white"
               }`}
             >
-              {label}
+              {item.label}
             </button>
           ))}
         </nav>
@@ -653,19 +662,21 @@ export default function App() {
         {/* MOBILE NAVIGATION TABS */}
         <div className="md:hidden bg-white border-b border-gray-200 overflow-x-auto sticky top-16 z-40">
           <div className="flex gap-2 p-2 min-w-max">
-            {["Sales", "Products", "Users", "Discounts", "Void", "Post-Void", "Receipts", "Audit"].map((label, i) => (
+            {navItems.map((item) => (
               <button
-                key={label}
-                onClick={() => setActiveTab(tabs[i])}
+                key={item.key}
+                onClick={() => setActiveTab(item.key)}
                 className={`px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
-                  tabs[i] === activeTab
+                  item.key === activeTab
                     ? "bg-blue-600 text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                {label}
+                {item.label}
               </button>
             ))}
+
+            ))
           </div>
         </div>
 
@@ -1349,6 +1360,15 @@ export default function App() {
                   </div>
                 </div>
               ))}
+              {auditLogs.filter(log => 
+                log.action.toLowerCase().includes(auditSearchTerm.toLowerCase()) ||
+                log.user.toLowerCase().includes(auditSearchTerm.toLowerCase()) ||
+                log.details.toLowerCase().includes(auditSearchTerm.toLowerCase())
+              ).length === 0 && (
+                <div className="bg-yellow-50 border border-yellow-200 p-3 rounded text-sm text-yellow-800">
+                  No audit logs found. Perform an action to generate logs.
+                </div>
+              )}
             </div>
           </div>
         )}
